@@ -1,0 +1,9 @@
+D:\Code\PlutoRover\PlutoRover.Library\bin\Debug\netcoreapp2.0\PlutoRover.Library.deps.json
+D:\Code\PlutoRover\PlutoRover.Library\bin\Debug\netcoreapp2.0\PlutoRover.Library.dll
+D:\Code\PlutoRover\PlutoRover.Library\bin\Debug\netcoreapp2.0\PlutoRover.Library.pdb
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.csprojResolveAssemblyReference.cache
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.csproj.CoreCompileInputs.cache
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.AssemblyInfoInputs.cache
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.AssemblyInfo.cs
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.dll
+D:\Code\PlutoRover\PlutoRover.Library\obj\Debug\netcoreapp2.0\PlutoRover.Library.pdb
