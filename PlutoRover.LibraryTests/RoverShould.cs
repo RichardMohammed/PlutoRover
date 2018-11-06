@@ -28,5 +28,15 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
+        [Fact]
+        public void MoveSouth()
+        {
+            var expected = "0,1,N";
+            var rover = new Rover{Coordinates = new Coordinate(0, 2)};
+            var actual = rover.ExecuteCommand("B");
+
+            Assert.True(expected == actual);
+        }
+
     }
 }
