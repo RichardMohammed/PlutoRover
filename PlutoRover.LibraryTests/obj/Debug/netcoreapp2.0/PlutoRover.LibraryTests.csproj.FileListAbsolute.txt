@@ -12,3 +12,5 @@ D:\Code\PlutoRover\PlutoRover.LibraryTests\obj\Debug\netcoreapp2.0\PlutoRover.Li
 D:\Code\PlutoRover\PlutoRover.LibraryTests\obj\Debug\netcoreapp2.0\PlutoRover.LibraryTests.AssemblyInfo.cs
 D:\Code\PlutoRover\PlutoRover.LibraryTests\obj\Debug\netcoreapp2.0\PlutoRover.LibraryTests.dll
 D:\Code\PlutoRover\PlutoRover.LibraryTests\obj\Debug\netcoreapp2.0\PlutoRover.LibraryTests.pdb
+D:\Code\PlutoRover\PlutoRover.LibraryTests\bin\Debug\netcoreapp2.0\PlutoRover.Library.dll
+D:\Code\PlutoRover\PlutoRover.LibraryTests\bin\Debug\netcoreapp2.0\PlutoRover.Library.pdb

@@ -1,4 +1,5 @@
 using System;
+using PlutoRover.Library;
 using Xunit;
 
 namespace PlutoRover.LibraryTests
@@ -17,6 +18,12 @@ namespace PlutoRover.LibraryTests
         [Fact]
         public void MoveNorth1Space()
         {
+            var expected = "0,1,N";
+            var rover = new Rover();
+
+            var actual = rover.ExecuteCommand("F");
+
+            Assert.True(expected == actual);
 
         }
     }
