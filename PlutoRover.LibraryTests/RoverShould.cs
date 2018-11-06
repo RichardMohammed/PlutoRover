@@ -38,5 +38,25 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
+        [Fact]
+        public void TurnLeft()
+        {
+            var expected = "0,0,W";
+            var rover = new Rover( );
+            var actual = rover.ExecuteCommand("L");
+
+            Assert.True(expected == actual);
+        }
+
+        [Fact]
+        public void TurnRight()
+        {
+            var expected = "0,0,E";
+            var rover = new Rover();
+            var actual = rover.ExecuteCommand("R");
+
+            Assert.True(expected == actual);
+        }
+
     }
 }

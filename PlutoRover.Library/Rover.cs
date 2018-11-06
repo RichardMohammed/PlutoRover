@@ -4,7 +4,8 @@ namespace PlutoRover.Library
 {
     public class Rover
     {
-        public Coordinate Coordinates { get; set; } 
+        public Coordinate Coordinates { get; set; }
+        private string direction = "N";
 
         public Rover()
         {
@@ -17,11 +18,25 @@ namespace PlutoRover.Library
             {
                 if (c == 'F')
                     Coordinates = MoveForward();
-                else if (c == 'B')
+                if (c == 'B')
                     Coordinates = Reverse();
+                if (c == 'L')
+                    direction = TurnLeft();
+                if (c == 'R')
+                    direction = TurnRight();
             }
 
-            return $"{Coordinates.X},{Coordinates.Y},N";
+            return $"{Coordinates.X},{Coordinates.Y},{direction}";
+        }
+
+        private string TurnRight()
+        {
+            return "E";
+        }
+
+        private string TurnLeft()
+        {
+            return "W";
         }
 
         private Coordinate Reverse()
