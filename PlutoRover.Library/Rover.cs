@@ -6,7 +6,13 @@ namespace PlutoRover.Library
     {
         public string ExecuteCommand(string command)
         {
-            return "0,1,N";
+            var position = "0,0,N";
+            foreach (var c in command.ToCharArray())
+            {
+                if (c == 'F')
+                    position = "0,1,N";
+            }
+            return position;
         }
     }
 }
