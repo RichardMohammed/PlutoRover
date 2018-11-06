@@ -15,16 +15,18 @@ namespace PlutoRover.LibraryTests
 
     public class RoverShould
     {
-        [Fact]
-        public void MoveNorth1Space()
+        [Theory]
+        [InlineData("F", "0,1,N")]
+        [InlineData("FF", "0,2,N")]
+        [InlineData("FFF", "0,3,N")]
+        [InlineData("FFFF", "0,4,N")]
+        public void MoveNorth(string command, string expected)
         {
-            var expected = "0,1,N";
             var rover = new Rover();
-
-            var actual = rover.ExecuteCommand("F");
+            var actual = rover.ExecuteCommand(command);
 
             Assert.True(expected == actual);
-
         }
+
     }
 }
