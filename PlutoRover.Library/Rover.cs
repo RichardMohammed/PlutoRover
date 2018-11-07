@@ -1,16 +1,17 @@
-﻿using System;
-using System.ComponentModel;
-
-namespace PlutoRover.Library
+﻿namespace PlutoRover.Library
 {
     public class Rover
     {
         public Coordinate Coordinates { get; set; }
         private string _direction = "N";
+        public int GridMaxHeight { get; set; }
+        public int GridMaxWidth { get; set; }
 
         public Rover()
         {
             Coordinates = new Coordinate(0, 0);
+            GridMaxHeight = 100;
+            GridMaxWidth = 100;
         }
 
         public string ExecuteCommand(string command)
@@ -62,12 +63,55 @@ namespace PlutoRover.Library
 
         private Coordinate Reverse()
         {
-            return new Coordinate(Coordinates.X, Coordinates.Y - 1);
+            var x = Coordinates.X;
+            var y = Coordinates.Y;
+
+            switch (_direction)
+            {
+                case "N":
+                    y = y > 0 ? y - 1 : GridMaxHeight - 1;
+                    break;
+                case "E":
+                    x = x > 0 ? x - 1 : GridMaxWidth - 1;
+                    break;
+                case "S":
+                    y = (y + 1) % GridMaxHeight;
+                    break;
+                case "W":
+                    x = (x + 1) % GridMaxWidth;
+                    break;
+                default:
+                    return Coordinates;
+            }
+
+            return new Coordinate(x, y);
         }
+
 
         private Coordinate MoveForward()
         {
-            return new Coordinate(Coordinates.X, Coordinates.Y + 1);
+            var x = Coordinates.X;
+            var y = Coordinates.Y;
+
+            switch (_direction)
+            {
+                case "N":
+                    y = (y + 1) % GridMaxHeight;
+                    break;
+                case "E":
+                    x = (x + 1) % GridMaxWidth;
+                    break;
+                case "S":
+                    y = y > 0 ? y - 1 : GridMaxHeight - 1;
+                    break;
+                case "W":
+                    x = x > 0 ? x - 1 : GridMaxWidth - 1;
+                    break;
+                default:
+                    return Coordinates;
+            }
+
+            return new Coordinate(x, y);
         }
     }
 }

@@ -1,6 +1,6 @@
-using System;
 using PlutoRover.Library;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace PlutoRover.LibraryTests
 {
@@ -15,6 +15,12 @@ namespace PlutoRover.LibraryTests
 
     public class RoverShould
     {
+        private readonly ITestOutputHelper _output;
+        public RoverShould(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         [Theory]
         [InlineData("F", "0,1,N")]
         [InlineData("FF", "0,2,N")]
@@ -43,7 +49,11 @@ namespace PlutoRover.LibraryTests
         [InlineData("LL", "0,0,S")]
         [InlineData("LLL", "0,0,E")]
         [InlineData("LLLL", "0,0,N")]
-        public void TurnLeft(string command, string expected)
+        [InlineData("R", "0,0,E")]
+        [InlineData("RR", "0,0,S")]
+        [InlineData("RRR", "0,0,W")]
+        [InlineData("RRRR", "0,0,N")]
+        public void TurnAnyDirection(string command, string expected)
         {
             var rover = new Rover( );
             var actual = rover.ExecuteCommand(command);
@@ -51,16 +61,25 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
-        [Theory]
-        [InlineData("R", "0,0,E")]
-        [InlineData("RR", "0,0,S")]
-        [InlineData("RRR", "0,0,W")]
-        [InlineData("RRRR", "0,0,N")]
-        public void TurnRight(string command, string expected)
+        [Fact]
+        public void WrapMovementReverse()
         {
+            var expected = "0,99,N";
             var rover = new Rover();
-            var actual = rover.ExecuteCommand(command);
+            var actual = rover.ExecuteCommand("B");
 
+            _output.WriteLine(actual);
+            Assert.True(expected == actual);
+        }
+
+        [Fact]
+        public void WrapMovementForward()
+        {
+            var expected = "0,0,N";
+            var rover = new Rover {Coordinates = new Coordinate(0, 99)};
+            var actual = rover.ExecuteCommand("F");
+
+            _output.WriteLine(actual);
             Assert.True(expected == actual);
         }
 
