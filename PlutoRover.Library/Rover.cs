@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace PlutoRover.Library
 {
     public class Rover
     {
         public Coordinate Coordinates { get; set; }
-        private string direction = "N";
+        private string _direction = "N";
 
         public Rover()
         {
@@ -21,22 +22,42 @@ namespace PlutoRover.Library
                 if (c == 'B')
                     Coordinates = Reverse();
                 if (c == 'L')
-                    direction = TurnLeft();
+                    _direction = TurnLeft();
                 if (c == 'R')
-                    direction = TurnRight();
+                    _direction = TurnRight();
             }
 
-            return $"{Coordinates.X},{Coordinates.Y},{direction}";
+            return $"{Coordinates.X},{Coordinates.Y},{_direction}";
         }
 
         private string TurnRight()
         {
-            return "E";
+            switch (_direction)
+            {
+                case "N":
+                    return "E";
+                case "E":
+                    return "S";
+                case "S":
+                    return "W";
+                default:
+                    return "N";
+            }
         }
 
         private string TurnLeft()
         {
-            return "W";
+            switch (_direction)
+            {
+                case "N":
+                    return "W";
+                case "W":
+                    return "S";
+                case "S":
+                    return "E";
+                default:
+                    return "N";
+            }
         }
 
         private Coordinate Reverse()

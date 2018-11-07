@@ -38,22 +38,28 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
-        [Fact]
-        public void TurnLeft()
+        [Theory]
+        [InlineData("L", "0,0,W")]
+        [InlineData("LL", "0,0,S")]
+        [InlineData("LLL", "0,0,E")]
+        [InlineData("LLLL", "0,0,N")]
+        public void TurnLeft(string command, string expected)
         {
-            var expected = "0,0,W";
             var rover = new Rover( );
-            var actual = rover.ExecuteCommand("L");
+            var actual = rover.ExecuteCommand(command);
 
             Assert.True(expected == actual);
         }
 
-        [Fact]
-        public void TurnRight()
+        [Theory]
+        [InlineData("R", "0,0,E")]
+        [InlineData("RR", "0,0,S")]
+        [InlineData("RRR", "0,0,W")]
+        [InlineData("RRRR", "0,0,N")]
+        public void TurnRight(string command, string expected)
         {
-            var expected = "0,0,E";
             var rover = new Rover();
-            var actual = rover.ExecuteCommand("R");
+            var actual = rover.ExecuteCommand(command);
 
             Assert.True(expected == actual);
         }
