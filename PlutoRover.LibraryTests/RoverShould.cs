@@ -22,29 +22,6 @@ namespace PlutoRover.LibraryTests
         }
 
         [Theory]
-        [InlineData("F", "0,1,N")]
-        [InlineData("FF", "0,2,N")]
-        [InlineData("FFF", "0,3,N")]
-        [InlineData("FFFF", "0,4,N")]
-        public void MoveNorth(string command, string expected)
-        {
-            var rover = new Rover();
-            var actual = rover.ExecuteCommand(command);
-
-            Assert.True(expected == actual);
-        }
-
-        [Fact]
-        public void MoveSouth()
-        {
-            var expected = "0,1,N";
-            var rover = new Rover{Coordinates = new Coordinate(0, 2)};
-            var actual = rover.ExecuteCommand("B");
-
-            Assert.True(expected == actual);
-        }
-
-        [Theory]
         [InlineData("L", "0,0,W")]
         [InlineData("LL", "0,0,S")]
         [InlineData("LLL", "0,0,E")]
@@ -61,23 +38,23 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
-        [Fact]
-        public void WrapMovementReverse()
+        [Theory]
+        [InlineData("FFF", "0,3,N")]
+        [InlineData("RFF", "2,0,E")]
+        [InlineData("RRFF", "0,98,S")]
+        [InlineData("RRRFF", "98,0,W")]
+        [InlineData("LF", "99,0,W")]
+        [InlineData("LLF", "0,99,S")]
+        [InlineData("LLLF", "1,0,E")]
+        [InlineData("LLLLFF", "0,2,N")]
+        [InlineData("FRF", "1,1,E")]
+        [InlineData("BRF", "1,99,E")]
+        [InlineData("FLF", "99,1,W")]
+        [InlineData("BLF", "99,99,W")]
+        public void MoveAnyDirectionWithWrapping(string command, string expected)
         {
-            var expected = "0,99,N";
             var rover = new Rover();
-            var actual = rover.ExecuteCommand("B");
-
-            _output.WriteLine(actual);
-            Assert.True(expected == actual);
-        }
-
-        [Fact]
-        public void WrapMovementForward()
-        {
-            var expected = "0,0,N";
-            var rover = new Rover {Coordinates = new Coordinate(0, 99)};
-            var actual = rover.ExecuteCommand("F");
+            var actual = rover.ExecuteCommand(command);
 
             _output.WriteLine(actual);
             Assert.True(expected == actual);
