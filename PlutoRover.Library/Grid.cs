@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PlutoRover.Library
 {
@@ -8,15 +7,20 @@ namespace PlutoRover.Library
     {
         private readonly int _gridMaxWidth;
         private readonly int _gridMaxHeight;
+        private readonly List<Coordinate> _obstacles;
 
         public Grid()
         {
             _gridMaxWidth = 100;
             _gridMaxHeight = 100;
+            _obstacles = new List<Coordinate>
+            {
+                new Coordinate(2, 2),
+                new Coordinate(98, 97)
+            };
         }
 
-
-        public Coordinate Reverse(Coordinate coordinates, Direction direction)
+        public Coordinate Move(Coordinate coordinates, Direction direction, bool isForward)
         {
             var x = coordinates.X;
             var y = coordinates.Y;
@@ -24,49 +28,29 @@ namespace PlutoRover.Library
             switch (direction)
             {
                 case Direction.N:
-                    y = y > 0 ? y - 1 : _gridMaxHeight - 1;
+                    y = isForward ? (y + 1) % _gridMaxHeight : (y > 0 ? y - 1 : _gridMaxHeight - 1);
                     break;
                 case Direction.E:
-                    x = x > 0 ? x - 1 : _gridMaxWidth - 1;
+                    x = isForward ? (x + 1) % _gridMaxWidth : (x > 0 ? x - 1 : _gridMaxWidth - 1);
                     break;
                 case Direction.S:
-                    y = (y + 1) % _gridMaxHeight;
+                    y = isForward ? y > 0 ? y - 1 : _gridMaxHeight - 1 : ((y + 1) % _gridMaxHeight);
                     break;
                 case Direction.W:
-                    x = (x + 1) % _gridMaxWidth;
+                    x = isForward ? x > 0 ? x - 1 : _gridMaxWidth - 1 : ((x + 1) % _gridMaxWidth);
                     break;
                 default:
                     return coordinates;
             }
 
-            return new Coordinate(x, y);
+            var nextCoordinate = new Coordinate(x, y);
+
+            return IsObstacle(nextCoordinate) ? null : nextCoordinate;
         }
 
-
-        public Coordinate MoveForward(Coordinate coordinates, Direction direction)
+        private bool IsObstacle(Coordinate coordinate)
         {
-            var x = coordinates.X;
-            var y = coordinates.Y;
-
-            switch (direction)
-            {
-                case Direction.N:
-                    y = (y + 1) % _gridMaxHeight;
-                    break;
-                case Direction.E:
-                    x = (x + 1) % _gridMaxWidth;
-                    break;
-                case Direction.S:
-                    y = y > 0 ? y - 1 : _gridMaxHeight - 1;
-                    break;
-                case Direction.W:
-                    x = x > 0 ? x - 1 : _gridMaxWidth - 1;
-                    break;
-                default:
-                    return coordinates;
-            }
-
-            return new Coordinate(x, y);
+           return _obstacles.Any(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
 
     }
