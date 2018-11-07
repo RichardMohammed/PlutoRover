@@ -1,24 +1,19 @@
+using System.Collections.Generic;
 using PlutoRover.Library;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace PlutoRover.LibraryTests
 {
-
-    //- Implement commands that move the rover forward/backward(‘F’,’B’). The rover may
-    //  only move forward/backward by one grid point, and must maintain the same heading.
-    // - Implement commands that turn the rover left/right (‘L’,’R’). These commands make
-    //  the rover spin 90 degrees left or right respectively, without moving from its current spot.
-    // - Implement wrapping from one edge of the grid to another. (Pluto is a sphere after all)
-    // - Implement obstacle detection before each move to a new square.
-    //   If a given sequence of commands encounters an obstacle, the rover moves up to the last possible point and reports the obstacle
-
     public class RoverShould
     {
         private readonly ITestOutputHelper _output;
+        private Grid _grid;
+
         public RoverShould(ITestOutputHelper output)
         {
             _output = output;
+            _grid = new Grid();
         }
 
         [Theory]
@@ -32,7 +27,7 @@ namespace PlutoRover.LibraryTests
         [InlineData("RRRR", "0,0,N")]
         public void TurnAnyDirection(string command, string expected)
         {
-            var rover = new Rover( );
+            var rover = new Rover(_grid);
             var actual = rover.ExecuteCommand(command);
 
             Assert.True(expected == actual);
@@ -53,19 +48,27 @@ namespace PlutoRover.LibraryTests
         [InlineData("BLF", "99,99,W")]
         public void MoveAnyDirectionWithWrapping(string command, string expected)
         {
-            var rover = new Rover();
+            var rover = new Rover(_grid);
             var actual = rover.ExecuteCommand(command);
 
             _output.WriteLine(actual);
             Assert.True(expected == actual);
         }
 
-        [Fact]
-        public void StopBeforeObstruction()
+        [Theory]
+        [InlineData("FFRFF", "1,2,E,O")]
+        [InlineData("BBBLFFF", "99,97,W,O")]
+        public void StopBeforeObstacles(string command, string expected)
         {
-            var expected = "1,2,E,O";
-            var rover = new Rover();
-            var actual = rover.ExecuteCommand("FFRFF");
+            var obstacles = new List<Coordinate>
+            {
+                new Coordinate(2, 2),
+                new Coordinate(98, 97)
+            };
+            _grid = new Grid(obstacles);
+
+            var rover = new Rover(_grid);
+            var actual = rover.ExecuteCommand(command);
 
             Assert.True(expected == actual);
         }

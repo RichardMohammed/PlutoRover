@@ -9,15 +9,17 @@ namespace PlutoRover.Library
         private readonly int _gridMaxHeight;
         private readonly List<Coordinate> _obstacles;
 
-        public Grid()
+        public Grid(int maxWidth = 100, int maxHeight = 100)
         {
-            _gridMaxWidth = 100;
-            _gridMaxHeight = 100;
-            _obstacles = new List<Coordinate>
-            {
-                new Coordinate(2, 2),
-                new Coordinate(98, 97)
-            };
+            _gridMaxWidth = maxWidth;
+            _gridMaxHeight = maxHeight;
+        }
+
+        public Grid(List<Coordinate> obstacles, int maxWidth = 100, int maxHeight = 100)
+        {
+            _gridMaxWidth = maxWidth;
+            _gridMaxHeight = maxHeight;
+            _obstacles = obstacles;
         }
 
         public Coordinate Move(Coordinate coordinates, Direction direction, bool isForward)
@@ -50,6 +52,9 @@ namespace PlutoRover.Library
 
         private bool IsObstacle(Coordinate coordinate)
         {
+            if (_obstacles == null || _obstacles.Count == 0)
+                return false;
+
            return _obstacles.Any(c => c.X == coordinate.X && c.Y == coordinate.Y);
         }
 

@@ -6,11 +6,11 @@
         private Direction _direction;
         private readonly Grid _grid;
 
-        public Rover()
+        public Rover(Grid grid)
         {
             _coordinates = new Coordinate(0, 0);
             _direction = Direction.N;
-            _grid = new Grid();
+            _grid = grid;
         }
 
         public string ExecuteCommand(string command)
