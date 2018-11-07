@@ -60,5 +60,15 @@ namespace PlutoRover.LibraryTests
             Assert.True(expected == actual);
         }
 
+        [Fact]
+        public void StopBeforeObstruction()
+        {
+            var expected = "1,2,E,O";
+            var rover = new Rover();
+            var actual = rover.ExecuteCommand("FFRFF");
+
+            Assert.True(expected == actual);
+        }
+
     }
 }
