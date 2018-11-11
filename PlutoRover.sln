@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlutoRover.Library", "PlutoRover.Library\PlutoRover.Library.csproj", "{55AB2AC7-E45C-41AE-B488-38B663900B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoRover.Library", "PlutoRover.Library\PlutoRover.Library.csproj", "{55AB2AC7-E45C-41AE-B488-38B663900B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlutoRover.LibraryTests", "PlutoRover.LibraryTests\PlutoRover.LibraryTests.csproj", "{3FEE5FBF-D2AF-4638-82D0-0E4C3730137F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoRover.LibraryTests", "PlutoRover.LibraryTests\PlutoRover.LibraryTests.csproj", "{3FEE5FBF-D2AF-4638-82D0-0E4C3730137F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{55033B2E-A02A-406E-BD9F-01D951916D39}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.md = ReadMe.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

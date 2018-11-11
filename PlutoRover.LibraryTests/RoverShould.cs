@@ -8,12 +8,19 @@ namespace PlutoRover.LibraryTests
     public class RoverShould
     {
         private readonly ITestOutputHelper _output;
-        private Grid _grid;
+        private readonly IRover _rover;
 
         public RoverShould(ITestOutputHelper output)
         {
             _output = output;
-            _grid = new Grid();
+            IEnumerable<ICoordinate> obstacles = new List<ICoordinate>
+            {
+                new Coordinate(2, 2),
+                new Coordinate(98, 97)
+            };
+            IGrid grid = new Grid(obstacles);
+            ICoordinate origin = new Coordinate(0, 0);
+            _rover = new Rover(grid, origin);
         }
 
         [Theory]
@@ -27,9 +34,7 @@ namespace PlutoRover.LibraryTests
         [InlineData("RRRR", "0,0,N")]
         public void TurnAnyDirection(string command, string expected)
         {
-            var rover = new Rover(_grid);
-            var actual = rover.ExecuteCommand(command);
-
+            var actual = _rover.ExecuteCommand(command);
             Assert.True(expected == actual);
         }
 
@@ -48,8 +53,7 @@ namespace PlutoRover.LibraryTests
         [InlineData("BLF", "99,99,W")]
         public void MoveAnyDirectionWithWrapping(string command, string expected)
         {
-            var rover = new Rover(_grid);
-            var actual = rover.ExecuteCommand(command);
+            var actual = _rover.ExecuteCommand(command);
 
             _output.WriteLine(actual);
             Assert.True(expected == actual);
@@ -60,16 +64,7 @@ namespace PlutoRover.LibraryTests
         [InlineData("BBBLFFF", "99,97,W,O")]
         public void StopBeforeObstacles(string command, string expected)
         {
-            var obstacles = new List<Coordinate>
-            {
-                new Coordinate(2, 2),
-                new Coordinate(98, 97)
-            };
-            _grid = new Grid(obstacles);
-
-            var rover = new Rover(_grid);
-            var actual = rover.ExecuteCommand(command);
-
+            var actual = _rover.ExecuteCommand(command);
             Assert.True(expected == actual);
         }
 

@@ -1,14 +1,14 @@
 ﻿namespace PlutoRover.Library
 {
-    public class Rover
+    public class Rover : IRover
     {
-        private Coordinate _coordinates;
+        private ICoordinate _coordinates;
         private Direction _direction;
-        private readonly Grid _grid;
+        private readonly IGrid _grid;
 
-        public Rover(Grid grid)
+        public Rover(IGrid grid, ICoordinate origin)
         {
-            _coordinates = new Coordinate(0, 0);
+            _coordinates = origin;
             _direction = Direction.N;
             _grid = grid;
         }

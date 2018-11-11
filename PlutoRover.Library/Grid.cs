@@ -3,26 +3,20 @@ using System.Linq;
 
 namespace PlutoRover.Library
 {
-    public class Grid
+    public class Grid : IGrid
     {
         private readonly int _gridMaxWidth;
         private readonly int _gridMaxHeight;
-        private readonly List<Coordinate> _obstacles;
+        private readonly IEnumerable<ICoordinate> _obstacles;
 
-        public Grid(int maxWidth = 100, int maxHeight = 100)
-        {
-            _gridMaxWidth = maxWidth;
-            _gridMaxHeight = maxHeight;
-        }
-
-        public Grid(List<Coordinate> obstacles, int maxWidth = 100, int maxHeight = 100)
+        public Grid(IEnumerable<ICoordinate> obstacles = null, int maxWidth = 100, int maxHeight = 100)
         {
             _gridMaxWidth = maxWidth;
             _gridMaxHeight = maxHeight;
             _obstacles = obstacles;
         }
 
-        public Coordinate Move(Coordinate coordinates, Direction direction, bool isForward)
+        public ICoordinate Move(ICoordinate coordinates, Direction direction, bool isForward)
         {
             var x = coordinates.X;
             var y = coordinates.Y;
@@ -30,33 +24,46 @@ namespace PlutoRover.Library
             switch (direction)
             {
                 case Direction.N:
-                    y = isForward ? (y + 1) % _gridMaxHeight : (y > 0 ? y - 1 : _gridMaxHeight - 1);
+                    y = isForward ? PositivePoint(y, _gridMaxHeight) : NegativePoint(y, _gridMaxHeight);
                     break;
                 case Direction.E:
-                    x = isForward ? (x + 1) % _gridMaxWidth : (x > 0 ? x - 1 : _gridMaxWidth - 1);
+                    x = isForward ? PositivePoint(x, _gridMaxWidth) : NegativePoint(x, _gridMaxWidth);
                     break;
                 case Direction.S:
-                    y = isForward ? y > 0 ? y - 1 : _gridMaxHeight - 1 : ((y + 1) % _gridMaxHeight);
+                    y = isForward ? NegativePoint(y, _gridMaxHeight) : PositivePoint(y, _gridMaxHeight);
                     break;
                 case Direction.W:
-                    x = isForward ? x > 0 ? x - 1 : _gridMaxWidth - 1 : ((x + 1) % _gridMaxWidth);
+                    x = isForward ? NegativePoint(x, _gridMaxWidth) : PositivePoint(x, _gridMaxWidth);
                     break;
                 default:
                     return coordinates;
             }
 
-            var nextCoordinate = new Coordinate(x, y);
+            if (IsObstacle(x, y))
+                return null;
 
-            return IsObstacle(nextCoordinate) ? null : nextCoordinate;
+            coordinates.X = x;
+            coordinates.Y = y;
+
+            return coordinates;
         }
 
-        private bool IsObstacle(Coordinate coordinate)
+        private int PositivePoint(int point, int dimension)
         {
-            if (_obstacles == null || _obstacles.Count == 0)
+            return (point + 1) % dimension;
+        }
+
+        private int NegativePoint(int point, int dimension)
+        {
+            return point > 0 ? point - 1 : dimension - 1;
+        }
+
+        private bool IsObstacle(int x, int y)
+        {
+            if (_obstacles == null || _obstacles.ToList().Count == 0)
                 return false;
 
-           return _obstacles.Any(c => c.X == coordinate.X && c.Y == coordinate.Y);
+           return _obstacles.Any(c => c.X == x && c.Y == y);
         }
-
     }
 }
