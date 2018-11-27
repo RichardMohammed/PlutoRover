@@ -2,6 +2,6 @@
 {
     public interface IRover
     {
-        string ExecuteCommand(string command);
+        string Move(string command);
     }
 }

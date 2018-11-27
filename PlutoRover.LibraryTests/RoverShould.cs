@@ -20,7 +20,9 @@ namespace PlutoRover.LibraryTests
             };
             IGrid grid = new Grid(obstacles);
             ICoordinate origin = new Coordinate(0, 0);
-            _rover = new Rover(grid, origin);
+            IGridCell cell = new GridCell {Coordinate = origin, IsObstructedAhead = false};
+            IDirection direction = new Direction {DirectionPoint = CardinalDirection.N};
+            _rover = new Rover(grid, cell, direction);
         }
 
         [Theory]
@@ -34,8 +36,12 @@ namespace PlutoRover.LibraryTests
         [InlineData("RRRR", "0,0,N")]
         public void TurnAnyDirection(string command, string expected)
         {
-            var actual = _rover.ExecuteCommand(command);
+            var actual = _rover.Move(command);
+            _output.WriteLine(expected);
+            _output.WriteLine(actual);
+
             Assert.True(expected == actual);
+
         }
 
         [Theory]
@@ -51,9 +57,28 @@ namespace PlutoRover.LibraryTests
         [InlineData("BRF", "1,99,E")]
         [InlineData("FLF", "99,1,W")]
         [InlineData("BLF", "99,99,W")]
-        public void MoveAnyDirectionWithWrapping(string command, string expected)
+        public void MoveAnyDirectionWithWrappingFrom0X0(string command, string expected)
         {
-            var actual = _rover.ExecuteCommand(command);
+            var actual = _rover.Move(command);
+
+            _output.WriteLine(actual);
+            Assert.True(expected == actual);
+        }
+
+        [Theory]
+        [InlineData(0, 99, CardinalDirection.N, "F", "0,0,N")]
+        [InlineData(0, 99, CardinalDirection.S, "B", "0,0,S")]
+        [InlineData(99, 0, CardinalDirection.E, "F", "0,0,E")]
+        [InlineData(99, 0, CardinalDirection.W, "B", "0,0,W")]
+        public void MoveWithWrappingFromEdges(int x, int y, CardinalDirection directionPoint, string command, string expected)
+        {
+            IGrid grid = new Grid();
+            ICoordinate origin = new Coordinate(x, y);
+            IGridCell cell = new GridCell { Coordinate = origin, IsObstructedAhead = false };
+            IDirection direction = new Direction { DirectionPoint = directionPoint };
+            var rover = new Rover(grid, cell, direction);
+
+            var actual = rover.Move(command);
 
             _output.WriteLine(actual);
             Assert.True(expected == actual);
@@ -64,7 +89,9 @@ namespace PlutoRover.LibraryTests
         [InlineData("BBBLFFF", "99,97,W,O")]
         public void StopBeforeObstacles(string command, string expected)
         {
-            var actual = _rover.ExecuteCommand(command);
+            var actual = _rover.Move(command);
+
+            _output.WriteLine(actual);
             Assert.True(expected == actual);
         }
 

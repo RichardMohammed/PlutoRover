@@ -16,36 +16,34 @@ namespace PlutoRover.Library
             _obstacles = obstacles;
         }
 
-        public ICoordinate Move(ICoordinate coordinates, Direction direction, bool isForward)
+        public IGridCell GetPosition(IGridCell cell, CardinalDirection direction, bool isForward)
         {
-            var x = coordinates.X;
-            var y = coordinates.Y;
+            var x = cell.Coordinate.X;
+            var y = cell.Coordinate.Y;
 
             switch (direction)
             {
-                case Direction.N:
+                case CardinalDirection.N:
                     y = isForward ? PositivePoint(y, _gridMaxHeight) : NegativePoint(y, _gridMaxHeight);
                     break;
-                case Direction.E:
+                case CardinalDirection.E:
                     x = isForward ? PositivePoint(x, _gridMaxWidth) : NegativePoint(x, _gridMaxWidth);
                     break;
-                case Direction.S:
+                case CardinalDirection.S:
                     y = isForward ? NegativePoint(y, _gridMaxHeight) : PositivePoint(y, _gridMaxHeight);
                     break;
-                case Direction.W:
+                case CardinalDirection.W:
                     x = isForward ? NegativePoint(x, _gridMaxWidth) : PositivePoint(x, _gridMaxWidth);
                     break;
                 default:
-                    return coordinates;
+                    return cell;
             }
 
-            if (IsObstacle(x, y))
-                return null;
+            cell.IsObstructedAhead = IsObstacle(x, y);
+            cell.Coordinate.X = !cell.IsObstructedAhead ? x : cell.Coordinate.X;
+            cell.Coordinate.Y = !cell.IsObstructedAhead ? y : cell.Coordinate.Y;
 
-            coordinates.X = x;
-            coordinates.Y = y;
-
-            return coordinates;
+            return cell;
         }
 
         private int PositivePoint(int point, int dimension)

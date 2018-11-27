@@ -2,6 +2,6 @@
 {
     public interface IGrid
     {
-        ICoordinate Move(ICoordinate coordinates, Direction direction, bool isForward);
+        IGridCell GetPosition(IGridCell coordinates, CardinalDirection direction, bool isForward);
     }
 }

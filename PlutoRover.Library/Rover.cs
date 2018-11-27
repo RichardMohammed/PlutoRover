@@ -2,39 +2,39 @@
 {
     public class Rover : IRover
     {
-        private ICoordinate _coordinates;
-        private Direction _direction;
+        private IGridCell _cell;
+        private IDirection _direction;
         private readonly IGrid _grid;
 
-        public Rover(IGrid grid, ICoordinate origin)
+        public Rover(IGrid grid, IGridCell origin, IDirection direction)
         {
-            _coordinates = origin;
-            _direction = Direction.N;
+            _cell = origin;
+            _direction = direction;
             _grid = grid;
         }
 
-        public string ExecuteCommand(string command)
+        public string Move(string command)
         {
-            var nextCoordinate = _coordinates;
+            var nextGridCell = _cell;
             foreach (var c in command.ToCharArray())
             {
                 if (c == 'F')
-                    nextCoordinate = _grid.Move(_coordinates, _direction, true);
+                    nextGridCell = _grid.GetPosition(_cell, _direction.DirectionPoint, true);
                 if (c == 'B')
-                    nextCoordinate = _grid.Move(_coordinates, _direction, false);
+                    nextGridCell = _grid.GetPosition(_cell, _direction.DirectionPoint, false);
                 if (c == 'L')
-                    _direction = _direction.TurnLeft();
+                    _direction.DirectionPoint = _direction.Left();
                 if (c == 'R')
-                    _direction = _direction.TurnRight();
+                    _direction.DirectionPoint = _direction.Right();
 
-                if (nextCoordinate != null)
-                    _coordinates = nextCoordinate;
+                if (nextGridCell != null)
+                    _cell = nextGridCell;
                 else
                     break;
             }
 
-            var obstacleCode = nextCoordinate == null ? ",O" : "";
-            return $"{_coordinates.X},{_coordinates.Y},{_direction}{obstacleCode}";
+            var obstacleCode = nextGridCell != null && nextGridCell.IsObstructedAhead ? ",O" : "";
+            return $"{_cell.Coordinate.X},{_cell.Coordinate.Y},{_direction.DirectionPoint}{obstacleCode}";
         }
     }
 }

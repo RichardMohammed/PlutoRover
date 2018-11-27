@@ -1,44 +1,46 @@
-﻿namespace PlutoRover.Library
+﻿using System.Reflection.Metadata;
+
+namespace PlutoRover.Library
 {
-    public enum Direction
+    public enum CardinalDirection
     {
-        N,
-        E,
-        S,
-        W
+        N, E, S, W
     }
 
-    public static class DirectionMethods
+    public class Direction : IDirection
     {
-        public static Direction TurnLeft(this Direction direction)
+        public CardinalDirection DirectionPoint { get; set; }
+
+        public CardinalDirection Left()
         {
-            switch (direction)
+            switch (DirectionPoint)
             {
-                case Direction.N:
-                    return Direction.W;
-                case Direction.W:
-                    return Direction.S;
-                case Direction.S:
-                    return Direction.E;
+                case CardinalDirection.N:
+                    return CardinalDirection.W;
+                case CardinalDirection.W:
+                    return CardinalDirection.S;
+                case CardinalDirection.S:
+                    return CardinalDirection.E;
                 default:
-                    return Direction.N;
+                    return CardinalDirection.N;
             }
         }
 
-        public static Direction TurnRight(this Direction direction)
+        public CardinalDirection Right()
         {
-            switch (direction)
+            switch (DirectionPoint)
             {
-                case Direction.N:
-                    return Direction.E;
-                case Direction.E:
-                    return Direction.S;
-                case Direction.S:
-                    return Direction.W;
+                case CardinalDirection.N:
+                    return CardinalDirection.E;
+                case CardinalDirection.E:
+                    return CardinalDirection.S;
+                case CardinalDirection.S:
+                    return CardinalDirection.W;
                 default:
-                    return Direction.N;
+                    return CardinalDirection.N;
             }
         }
+
     }
 
 }
