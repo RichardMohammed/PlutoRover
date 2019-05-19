@@ -1,4 +1,4 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Collections.Generic;
 
 namespace PlutoRover.Library
 {
@@ -11,36 +11,23 @@ namespace PlutoRover.Library
     {
         public CardinalDirection DirectionPoint { get; set; }
 
+        private readonly Dictionary<CardinalDirection, dynamic> _nextDirection =
+            new Dictionary<CardinalDirection, dynamic>
+            {
+                { CardinalDirection.N, new{L = CardinalDirection.W, R = CardinalDirection.E}},
+                { CardinalDirection.E, new{L = CardinalDirection.N, R = CardinalDirection.S}},
+                { CardinalDirection.S, new{L = CardinalDirection.E, R = CardinalDirection.W}},
+                { CardinalDirection.W, new{L = CardinalDirection.S, R = CardinalDirection.N}}
+            };
+
         public CardinalDirection Left()
         {
-            switch (DirectionPoint)
-            {
-                case CardinalDirection.N:
-                    return CardinalDirection.W;
-                case CardinalDirection.W:
-                    return CardinalDirection.S;
-                case CardinalDirection.S:
-                    return CardinalDirection.E;
-                default:
-                    return CardinalDirection.N;
-            }
+            return _nextDirection[DirectionPoint].L;
         }
 
         public CardinalDirection Right()
         {
-            switch (DirectionPoint)
-            {
-                case CardinalDirection.N:
-                    return CardinalDirection.E;
-                case CardinalDirection.E:
-                    return CardinalDirection.S;
-                case CardinalDirection.S:
-                    return CardinalDirection.W;
-                default:
-                    return CardinalDirection.N;
-            }
+            return _nextDirection[DirectionPoint].R;
         }
-
     }
-
 }

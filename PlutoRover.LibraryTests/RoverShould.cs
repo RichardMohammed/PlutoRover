@@ -85,7 +85,7 @@ namespace PlutoRover.LibraryTests
         }
 
         [Theory]
-        [InlineData("FFRFF", "1,2,E,O")]
+        [InlineData("FFRFFFFFF", "1,2,E,O")]
         [InlineData("BBBLFFF", "99,97,W,O")]
         public void StopBeforeObstacles(string command, string expected)
         {

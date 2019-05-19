@@ -8,8 +8,3 @@ The capabilities include:
 	4. Obstacle detection. The rover will move up to the last cell before it encounters an obstacle and return its
 	   current position as well as an additonal O to denote an obstacle has been found in the next cell.
 
-Further Works
-This kata was time limited thus there are further refactoring to be done for example,
-the rover can accept its initial postion in the constructor. Interfaces may be needed to 
-eliminate dependencies among the classes. 
-There may also be a better way to implement the Direction class with each Direction being aware of its left and right counterpart.

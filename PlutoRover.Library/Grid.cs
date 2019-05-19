@@ -16,10 +16,11 @@ namespace PlutoRover.Library
             _obstacles = obstacles;
         }
 
-        public IGridCell GetPosition(IGridCell cell, CardinalDirection direction, bool isForward)
+        public IGridCell GetPosition(ICoordinate coordinates, CardinalDirection direction, bool isForward)
         {
-            var x = cell.Coordinate.X;
-            var y = cell.Coordinate.Y;
+            var x = coordinates.X;
+            var y = coordinates.Y;
+            var cell = new GridCell {Coordinate = coordinates};
 
             switch (direction)
             {
